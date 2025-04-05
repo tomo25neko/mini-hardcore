@@ -13,8 +13,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+/*
+コメントアウトしているコードはデバッグ出力用のコードです
+ */
 
 public class PlayerDeath implements Listener {
 
@@ -35,14 +42,14 @@ public class PlayerDeath implements Listener {
         }
 
         int roll = RANDOM.nextInt(10); // 0〜9
-        Bukkit.broadcast(Component.text("アイテム損失判定: ロール = " + roll, NamedTextColor.GRAY));
+//        Bukkit.broadcast(Component.text("アイテム損失判定: ロール = " + roll, NamedTextColor.GRAY));
 
         // 確率がLOSS_CHANCE以下ならアイテム削除処理へ
         if (roll <= LOSS_CHANCE) {
             if (removeDrops(event)) {
                 Bukkit.broadcast(
                         Component.text("===[mini-hardcore]===",NamedTextColor.AQUA,TextDecoration.BOLD)
-                        .append(Component.empty())
+                        .append(Component.newline())
                         .append(Component.text(name + " さんのアイテムの一部が不幸にも消えてしまいました…", NamedTextColor.YELLOW))
                 );
             }
@@ -55,18 +62,17 @@ public class PlayerDeath implements Listener {
                 .collect(Collectors.toList());
 
         if (drops.isEmpty()) {
-            Bukkit.broadcast(Component.text("削除対象のアイテムがありません。", NamedTextColor.GRAY));
+//            Bukkit.broadcast(Component.text("削除対象のアイテムがありません。", NamedTextColor.GRAY));
             return false;
         }
 
         int removeCount = drops.size() / 3; // 空でないドロップの1/3
-        Bukkit.broadcast(Component.text("ドロップ数: " + drops.size() + " → 削除予定: " + removeCount, NamedTextColor.GRAY));
+//        Bukkit.broadcast(Component.text("ドロップ数: " + drops.size() + " → 削除予定: " + removeCount, NamedTextColor.GRAY));
 
-        int removedStacks = 0;
 
         while (removeCount > 0 && !drops.isEmpty()) {
             Collections.shuffle(drops);
-            Bukkit.broadcast(Component.text("ドロップアイテムをシャッフルしました。", NamedTextColor.GRAY));
+//            Bukkit.broadcast(Component.text("ドロップアイテムをシャッフルしました。", NamedTextColor.GRAY));
 
             Iterator<ItemStack> iterator = drops.iterator();
             while (iterator.hasNext() && removeCount > 0) {
@@ -79,12 +85,12 @@ public class PlayerDeath implements Listener {
                 int enchantBonus = enchantCount * 5;
                 int totalChance = Math.min(100, baseChance + enchantBonus); // 最大100%
 
-                // デバッグ出力
-                Bukkit.broadcast(Component.text(
-                        "対象: " + item.getType() +
-                                " | エンチャント数: " + enchantCount +
-                                " | 確率: " + totalChance + "%",
-                        NamedTextColor.GRAY));
+//                // デバッグ出力
+//                Bukkit.broadcast(Component.text(
+//                        "対象: " + item.getType() +
+//                                " | エンチャント数: " + enchantCount +
+//                                " | 確率: " + totalChance + "%",
+//                        NamedTextColor.GRAY));
 
                 // 削除判定
                 if (RANDOM.nextInt(100) < totalChance) {
@@ -92,16 +98,15 @@ public class PlayerDeath implements Listener {
                     item.setAmount(item.getAmount() - removedAmount);
                     if (item.getAmount() <= 0) iterator.remove();
 
-                    removedStacks++;
                     removeCount--;
-                    Bukkit.broadcast(Component.text(
-                            "削除: " + item.getType() + " を " + removedAmount + " 個（残: " + removeCount + "）",
-                            NamedTextColor.RED));
+//                    Bukkit.broadcast(Component.text(
+//                            "削除: " + item.getType() + " を " + removedAmount + " 個（残: " + removeCount + "）",
+//                            NamedTextColor.RED));
                 }
             }
         }
 
-        Bukkit.broadcast(Component.text("最終的に削除されたスタック数: " + removedStacks, NamedTextColor.GRAY));
-        return removedStacks > 0;
+//        Bukkit.broadcast(Component.text("最終的に削除されたスタック数: " + removedStacks, NamedTextColor.GRAY));
+        return true;
     }
 }

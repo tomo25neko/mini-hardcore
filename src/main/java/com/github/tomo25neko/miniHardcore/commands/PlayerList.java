@@ -8,12 +8,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.github.tomo25neko.miniHardcore.Main.*;
+import static com.github.tomo25neko.miniHardcore.Main.addPlayerToList;
+import static com.github.tomo25neko.miniHardcore.Main.removePlayerFromList;
 
 
 public class PlayerList implements BasicCommand {
