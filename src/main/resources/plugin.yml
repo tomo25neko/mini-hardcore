@@ -1,0 +1,9 @@
+name: mini-hardcore
+version: '1.0.0'
+main: com.github.tomo25neko.miniHardcore.Main
+api-version: '1.21'
+authors: [ 25tomo ]
+permissions:
+  mini-hardcore.use:
+    description: "MiniHardcoreのコマンドを使用するための権限"
+    default: op
