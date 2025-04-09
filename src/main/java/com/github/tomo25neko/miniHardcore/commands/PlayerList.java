@@ -1,6 +1,7 @@
 package com.github.tomo25neko.miniHardcore.commands;
 
 
+import com.github.tomo25neko.miniHardcore.FileManager;
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
@@ -12,11 +13,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.github.tomo25neko.miniHardcore.Main.addPlayerToList;
-import static com.github.tomo25neko.miniHardcore.Main.removePlayerFromList;
 
 
 public class PlayerList implements BasicCommand {
+    private final FileManager players;
+
+    public  PlayerList(FileManager players) {
+        this.players = players;
+    }
+
     @Override
     public void execute(CommandSourceStack commandSourceStack, String[] args) {
         CommandSender sender = commandSourceStack.getSender();
@@ -36,14 +41,14 @@ public class PlayerList implements BasicCommand {
 
         switch (action.toLowerCase()) {
             case "add":
-                if (!addPlayerToList(playerName)) {
+                if (!players.add(playerName)) {
                     sender.sendMessage(Component.text(playerName + " はすでに登録されています。"));
                 } else {
                     sender.sendMessage(Component.text(playerName + " を追加しました。"));
                 }
                 break;
             case "remove":
-                if (!removePlayerFromList(playerName)) {
+                if (!players.remove(playerName)) {
                     sender.sendMessage(Component.text(playerName + " は登録されていません。"));
                 } else {
                     sender.sendMessage(Component.text(playerName + " を削除しました。"));
@@ -76,7 +81,7 @@ public class PlayerList implements BasicCommand {
                     .filter(name -> name.startsWith(args[1])) // 部分一致検索
                     .toList();
         }
-        return List.of();
+        return BasicCommand.super.suggest(commandSourceStack, args);
     }
 
 

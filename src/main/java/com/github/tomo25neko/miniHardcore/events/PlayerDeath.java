@@ -1,6 +1,8 @@
 package com.github.tomo25neko.miniHardcore.events;
 
+import com.github.tomo25neko.miniHardcore.FileManager;
 import com.github.tomo25neko.miniHardcore.Main;
+import com.github.tomo25neko.miniHardcore.commands.PlayerList;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -13,10 +15,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -29,12 +28,18 @@ public class PlayerDeath implements Listener {
     private final Random RANDOM = new Random();
     private final int baseChance = 30; // 基本削除確率 30%
 
+    private final FileManager players;
+
+    public PlayerDeath(FileManager players) {
+        this.players = players;
+    }
+
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         String name = event.getPlayer().getName();
 
         // 死亡メッセージ変更
-        if (Main.isPlayerContainList(name)) {
+        if (players.contains(name)) {
             event.deathMessage(Component.text("おぉ勇者「")
                     .append(Component.text(name, Style.style(NamedTextColor.AQUA, TextDecoration.BOLD)))
                     .append(Component.text("」よ死んでしまうとは情けないｗｗ"))
