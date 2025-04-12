@@ -1,6 +1,7 @@
 package com.github.tomo25neko.miniHardcore;
 
 
+import com.github.tomo25neko.miniHardcore.commands.MemoryLocations;
 import com.github.tomo25neko.miniHardcore.commands.PlayerList;
 import com.github.tomo25neko.miniHardcore.commands.PlayerLocation;
 import com.github.tomo25neko.miniHardcore.events.PlayerDeath;
@@ -38,6 +39,9 @@ public final class Main extends JavaPlugin {
         //コマンド登録
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS,
                  event -> event.registrar().register("playerlist",new PlayerList(players))
+        );
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS,
+                event -> event.registrar().register("memorylocations",new MemoryLocations(locations))
         );
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS,
                 event -> event.registrar().register("playerlocation",new PlayerLocation())
