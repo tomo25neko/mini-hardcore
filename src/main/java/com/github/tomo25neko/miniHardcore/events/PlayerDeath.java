@@ -1,8 +1,6 @@
 package com.github.tomo25neko.miniHardcore.events;
 
-import com.github.tomo25neko.miniHardcore.FileManager;
-import com.github.tomo25neko.miniHardcore.Main;
-import com.github.tomo25neko.miniHardcore.commands.PlayerList;
+import com.github.tomo25neko.miniHardcore.file.PlayerFileManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -28,9 +26,9 @@ public class PlayerDeath implements Listener {
     private final Random RANDOM = new Random();
     private final int baseChance = 30; // 基本削除確率 30%
 
-    private final FileManager players;
+    private final PlayerFileManager players;
 
-    public PlayerDeath(FileManager players) {
+    public PlayerDeath(PlayerFileManager players) {
         this.players = players;
     }
 
@@ -39,7 +37,7 @@ public class PlayerDeath implements Listener {
         String name = event.getPlayer().getName();
 
         // 死亡メッセージ変更
-        if (players.contains(name)) {
+        if (players.containsPlayer(name)) {
             event.deathMessage(Component.text("おぉ勇者「")
                     .append(Component.text(name, Style.style(NamedTextColor.AQUA, TextDecoration.BOLD)))
                     .append(Component.text("」よ死んでしまうとは情けないｗｗ"))
