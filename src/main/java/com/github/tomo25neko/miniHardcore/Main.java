@@ -48,7 +48,9 @@ public final class Main extends JavaPlugin {
         );
 
 
-        getLogger().info("[mini-hardcore]:プラグインが起動しました");
+        getLogger().info("======================");
+        getLogger().info("プラグインが起動しました");
+        getLogger().info("======================");
     }
 
     @Override
@@ -56,6 +58,8 @@ public final class Main extends JavaPlugin {
         // Plugin shutdown logic
         players.save();
         locations.save();
-        getLogger().info("[mini-hardcore]:プラグインが停止しました");
+        getLogger().info("======================");
+        getLogger().info("プラグインが停止しました");
+        getLogger().info("======================");
     }
 }

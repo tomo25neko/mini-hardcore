@@ -47,6 +47,12 @@ public class PlayerLocation implements BasicCommand {
 
     @Override
     public @NotNull Collection<String> suggest(@NotNull CommandSourceStack commandSourceStack, @NotNull String[] args) {
+
+        if(args.length == 0) {
+            return Bukkit.getOnlinePlayers().stream()
+                    .map(Player::getName).collect(Collectors.toList());
+        }
+
         if (args.length == 1) {
             String partial = args[0].toLowerCase(Locale.ROOT);
             return Bukkit.getOnlinePlayers().stream()
